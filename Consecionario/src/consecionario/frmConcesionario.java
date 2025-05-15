@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JDialog;
 import Coneccion.CRUD;
+import Controller.controllerConcesionario;
 
 public class frmConcesionario extends javax.swing.JFrame {
 
@@ -20,14 +21,16 @@ public class frmConcesionario extends javax.swing.JFrame {
     String valor;
     String detalles;
     private CRUD crud;
+    private controllerConcesionario controlador;
 
     /**
      * Creates new form frmConcesionario
      */
     public frmConcesionario() {
         initComponents();
-        this.setLocationRelativeTo(null); // Centrar la ventana en la pantalla
+        this.setLocationRelativeTo(null);
         listaVehiculos = new ArrayList<>();
+        controlador = new controllerConcesionario();
         
         // Ocultar campos no necesarios
         txtNombrePropietario.setVisible(false);
@@ -40,14 +43,13 @@ public class frmConcesionario extends javax.swing.JFrame {
         txtModelo.setText("");
         txtPlaca.setText("");
         
-        crud = new CRUD();
         configurarTabla();
         cargarVehiculos();
     }
 
     private void cargarVehiculos() {
         try {
-            ResultSet rs = crud.obtenerVehiculos();
+            ResultSet rs = controlador.obtenerVehiculos();
             DefaultTableModel modelo = (DefaultTableModel) tbInfo.getModel();
             modelo.setRowCount(0);
 
@@ -100,78 +102,75 @@ public class frmConcesionario extends javax.swing.JFrame {
             marca = comboMarca.getSelectedItem().toString();
             detalles = tDetalles.getText();
 
-            if (validarCampos()) {
-                if (!crud.existePlaca(placa)) {
-                    double costo = 0;
-                    double precio = 0;
-                    boolean costosValidos = false;
-                    
-                    // Obtener estado del ComboBox (1 = nuevo, 2 = usado)
-                    int estado = SelectEstado.getSelectedIndex() + 1;
+            if (!controlador.validarCampos(marca, modelo, año, placa)) {
+                String mensaje = controlador.mensajeValidacion(marca, modelo, año, placa);
+                JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-                    while (!costosValidos) {
-                        try {
-                            String costoStr = JOptionPane.showInputDialog(this, 
-                                "Ingrese el costo de compra del vehículo:", 
-                                "Costo", JOptionPane.QUESTION_MESSAGE);
-                            
-                            if (costoStr == null) return; // Usuario canceló
-                            
-                            String precioStr = JOptionPane.showInputDialog(this,
-                                "Ingrese el precio de venta esperado:",
-                                "Precio", JOptionPane.QUESTION_MESSAGE);
-                            
-                            if (precioStr == null) return; // Usuario canceló
-                            
-                            costo = Double.parseDouble(costoStr);
-                            precio = Double.parseDouble(precioStr);
-                            
-                            if (costo >= precio) {
-                                JOptionPane.showMessageDialog(this,
-                                    "El costo debe ser menor que el precio de venta",
-                                    "Error", JOptionPane.ERROR_MESSAGE);
-                            } else if (costo <= 0 || precio <= 0) {
-                                JOptionPane.showMessageDialog(this,
-                                    "El costo y precio deben ser mayores a 0",
-                                    "Error", JOptionPane.ERROR_MESSAGE);
-                            } else {
-                                costosValidos = true;
-                            }
-                        } catch (NumberFormatException e) {
-                            JOptionPane.showMessageDialog(this,
-                                "Por favor, ingrese valores numéricos válidos",
-                                "Error", JOptionPane.ERROR_MESSAGE);
+            if (!controlador.existePlaca(placa)) {
+                double costo = 0;
+                double precio = 0;
+                boolean costosValidos = false;
+                int estado = SelectEstado.getSelectedIndex() + 1;
+
+                while (!costosValidos) {
+                    try {
+                        String costoStr = JOptionPane.showInputDialog(this, 
+                            "Ingrese el costo de compra del vehículo:", 
+                            "Costo", JOptionPane.QUESTION_MESSAGE);
+                        if (costoStr == null) return;
+                        String precioStr = JOptionPane.showInputDialog(this,
+                            "Ingrese el precio de venta esperado:",
+                            "Precio", JOptionPane.QUESTION_MESSAGE);
+                        if (precioStr == null) return;
+                        costo = Double.parseDouble(costoStr);
+                        precio = Double.parseDouble(precioStr);
+
+                        String mensajeCostos = controlador.validarCostos(costo, precio);
+                        if (!mensajeCostos.isEmpty()) {
+                            JOptionPane.showMessageDialog(this, mensajeCostos, "Error", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            costosValidos = true;
                         }
-                    }
-
-                    int resultado = crud.insertarVehiculo(
-                        placa, marca, modelo,
-                        Integer.parseInt(año),
-                        costo, precio,
-                        estado,
-                        detalles
-                    );
-
-                    if (resultado > 0) {
+                    } catch (NumberFormatException e) {
                         JOptionPane.showMessageDialog(this,
-                            "Vehículo guardado exitosamente",
-                            "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                        limpiarCampos();
-                        cargarVehiculos();
-                    } else {
-                        JOptionPane.showMessageDialog(this,
-                            "Error al guardar el vehículo",
+                            "Por favor, ingrese valores numéricos válidos",
                             "Error", JOptionPane.ERROR_MESSAGE);
                     }
+                }
+
+                int resultado = controlador.insertarVehiculo(
+                    placa, marca, modelo,
+                    Integer.parseInt(año),
+                    costo, precio,
+                    estado,
+                    detalles
+                );
+
+                if (resultado > 0) {
+                    JOptionPane.showMessageDialog(this,
+                        "Vehículo guardado exitosamente",
+                        "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                    limpiarCampos();
+                    cargarVehiculos();
                 } else {
                     JOptionPane.showMessageDialog(this,
-                        "La placa ya está registrada en el sistema",
+                        "Error al guardar el vehículo",
                         "Error", JOptionPane.ERROR_MESSAGE);
                 }
+            } else {
+                JOptionPane.showMessageDialog(this,
+                    "La placa ya está registrada en el sistema",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this,
                 "Por favor, ingrese valores numéricos válidos para el año",
+                "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                "Error al guardar el vehículo: " + e.getMessage(),
                 "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -328,8 +327,18 @@ public class frmConcesionario extends javax.swing.JFrame {
         });
 
         btnBuscarVehiculo.setText("Buscar Vehiculo");
+        btnBuscarVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarVehiculoActionPerformed(evt);
+            }
+        });
 
         btnActualizarVehiculo.setText("Actualizar Vehiculo");
+        btnActualizarVehiculo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarVehiculoActionPerformed(evt);
+            }
+        });
 
         btnModuloVentas.setText("Ventas");
 
@@ -461,16 +470,18 @@ public class frmConcesionario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtModeloActionPerformed
 
     private void btnBuscarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarVehiculoActionPerformed
-        String placaBuscar = txtPlaca.getText().toUpperCase();
-        if (placaBuscar.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                "Por favor ingrese una placa para buscar",
-                "Error", JOptionPane.ERROR_MESSAGE);
+        String placaBuscar = JOptionPane.showInputDialog(this, "Ingrese la placa del vehículo a buscar:", "Buscar Vehículo", JOptionPane.QUESTION_MESSAGE);
+        if (placaBuscar == null) return; // Cancelado
+
+        placaBuscar = placaBuscar.toUpperCase().trim();
+        String mensajeValidacion = controlador.validarPlacaBusqueda(placaBuscar);
+        if (!mensajeValidacion.isEmpty()) {
+            JOptionPane.showMessageDialog(this, mensajeValidacion, "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
-            ResultSet rs = crud.obtenerVehiculoPorPlaca(placaBuscar);
+            ResultSet rs = controlador.obtenerVehiculoPorPlaca(placaBuscar);
             if (rs.next()) {
                 // Cargar datos en el formulario
                 comboMarca.setSelectedItem(rs.getString("marca"));
@@ -479,12 +490,12 @@ public class frmConcesionario extends javax.swing.JFrame {
                 txtPlaca.setText(rs.getString("placa"));
                 tDetalles.setText(rs.getString("detalle"));
                 SelectEstado.setSelectedIndex(rs.getInt("estado") - 1);
-                
+
                 // Deshabilitar campos que no deben modificarse
                 txtPlaca.setEnabled(false);
                 btnAgregar.setEnabled(false);
                 btnActualizarVehiculo.setEnabled(true);
-                
+
                 JOptionPane.showMessageDialog(this,
                     "Vehículo encontrado",
                     "Éxito", JOptionPane.INFORMATION_MESSAGE);
@@ -501,91 +512,114 @@ public class frmConcesionario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarVehiculoActionPerformed
 
     private void btnActualizarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarVehiculoActionPerformed
+        btnActualizarVehiculo.setText("Actualizando...");
+        btnActualizarVehiculo.setEnabled(false);
+
         modelo = txtModelo.getText().toUpperCase();
         año = txtAño.getText();
         marca = comboMarca.getSelectedItem().toString();
         detalles = tDetalles.getText();
-        
-        if (validarCampos()) {
-            try {
-                double costo = 0;
-                double precio = 0;
-                boolean costosValidos = false;
-                int estado = SelectEstado.getSelectedIndex() + 1;
 
-                while (!costosValidos) {
-                    try {
-                        String costoStr = JOptionPane.showInputDialog(this, 
-                            "Ingrese el costo de compra del vehículo:", 
-                            "Costo", JOptionPane.QUESTION_MESSAGE);
-                        
-                        if (costoStr == null) return;
-                        
-                        String precioStr = JOptionPane.showInputDialog(this,
-                            "Ingrese el precio de venta esperado:",
-                            "Precio", JOptionPane.QUESTION_MESSAGE);
-                        
-                        if (precioStr == null) return;
-                        
-                        costo = Double.parseDouble(costoStr);
-                        precio = Double.parseDouble(precioStr);
-                        
-                        if (costo >= precio) {
-                            JOptionPane.showMessageDialog(this,
-                                "El costo debe ser menor que el precio de venta",
-                                "Error", JOptionPane.ERROR_MESSAGE);
-                        } else if (costo <= 0 || precio <= 0) {
-                            JOptionPane.showMessageDialog(this,
-                                "El costo y precio deben ser mayores a 0",
-                                "Error", JOptionPane.ERROR_MESSAGE);
-                        } else {
-                            costosValidos = true;
-                        }
-                    } catch (NumberFormatException e) {
-                        JOptionPane.showMessageDialog(this,
-                            "Por favor, ingrese valores numéricos válidos",
-                            "Error", JOptionPane.ERROR_MESSAGE);
+        if (!controlador.validarCampos(marca, modelo, año, txtPlaca.getText())) {
+            String mensaje = controlador.mensajeValidacion(marca, modelo, año, txtPlaca.getText());
+            JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+            btnActualizarVehiculo.setText("Actualizar Vehiculo");
+            btnActualizarVehiculo.setEnabled(true);
+            return;
+        }
+
+        try {
+            double costo = 0;
+            double precio = 0;
+            boolean costosValidos = false;
+            int estado = SelectEstado.getSelectedIndex() + 1;
+
+            while (!costosValidos) {
+                try {
+                    String costoStr = JOptionPane.showInputDialog(this, 
+                        "Ingrese el costo de compra del vehículo:", 
+                        "Costo", JOptionPane.QUESTION_MESSAGE);
+
+                    if (costoStr == null) {
+                        btnActualizarVehiculo.setText("Actualizar Vehiculo");
+                        btnActualizarVehiculo.setEnabled(true);
+                        return;
                     }
-                }
 
-                int resultado = crud.actualizarVehiculo(
-                    txtPlaca.getText(),
-                    marca,
-                    modelo,
-                    Integer.parseInt(año),
-                    costo,
-                    precio,
-                    estado,
-                    detalles
-                );
+                    String precioStr = JOptionPane.showInputDialog(this,
+                        "Ingrese el precio de venta esperado:",
+                        "Precio", JOptionPane.QUESTION_MESSAGE);
 
-                if (resultado > 0) {
+                    if (precioStr == null) {
+                        btnActualizarVehiculo.setText("Actualizar Vehiculo");
+                        btnActualizarVehiculo.setEnabled(true);
+                        return;
+                    }
+
+                    costo = Double.parseDouble(costoStr);
+                    precio = Double.parseDouble(precioStr);
+
+                    String mensajeCostos = controlador.validarCostos(costo, precio);
+                    if (!mensajeCostos.isEmpty()) {
+                        JOptionPane.showMessageDialog(this, mensajeCostos, "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        costosValidos = true;
+                    }
+                } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(this,
-                        "Vehículo actualizado exitosamente",
-                        "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                    
-                    // Habilitar campos y botones
-                    txtPlaca.setEnabled(true);
-                    btnAgregar.setEnabled(true);
-                    btnActualizarVehiculo.setEnabled(false);
-                    
-                    limpiarCampos();
-                    cargarVehiculos();
-                } else {
-                    JOptionPane.showMessageDialog(this,
-                        "Error al actualizar el vehículo",
+                        "Por favor, ingrese valores numéricos válidos",
                         "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this,
-                    "Error al actualizar el vehículo: " + e.getMessage(),
-                    "Error", JOptionPane.ERROR_MESSAGE);
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this,
-                    "Por favor, ingrese valores numéricos válidos para el año",
-                    "Error", JOptionPane.ERROR_MESSAGE);
             }
+
+            int resultado = controlador.actualizarVehiculo(
+                txtPlaca.getText(),
+                marca,
+                modelo,
+                Integer.parseInt(año),
+                costo,
+                precio,
+                estado,
+                detalles
+            );
+
+            if (resultado > 0) {
+                JOptionPane.showMessageDialog(this,
+                    "Vehículo actualizado exitosamente",
+                    "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+                // Habilitar campos y botones
+                txtPlaca.setEnabled(true);
+                btnAgregar.setEnabled(true);
+                btnActualizarVehiculo.setEnabled(false);
+
+                limpiarCampos();
+                cargarVehiculos();
+            } else {
+                JOptionPane.showMessageDialog(this,
+                    "Error al actualizar el vehículo",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+                btnActualizarVehiculo.setText("Actualizar Vehiculo");
+                btnActualizarVehiculo.setEnabled(true);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                "Error al actualizar el vehículo: " + e.getMessage(),
+                "Error", JOptionPane.ERROR_MESSAGE);
+            btnActualizarVehiculo.setText("Actualizar Vehiculo");
+            btnActualizarVehiculo.setEnabled(true);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                "Por favor, ingrese valores numéricos válidos para el año",
+                "Error", JOptionPane.ERROR_MESSAGE);
+            btnActualizarVehiculo.setText("Actualizar Vehiculo");
+            btnActualizarVehiculo.setEnabled(true);
         }
+
+        btnActualizarVehiculo.setText("Actualizar Vehiculo");
+        btnActualizarVehiculo.setEnabled(true);
+        limpiarCampos();
+        cargarVehiculos();
     }//GEN-LAST:event_btnActualizarVehiculoActionPerformed
 
     private void btnMenuClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuClienteActionPerformed
