@@ -11,13 +11,7 @@ import Coneccion.CRUD;
 public class frmConcesionario extends javax.swing.JFrame {
 
     ArrayList<Vehiculo> listaVehiculos;
-    String[] columnas = {"Marca", "Modelo", "Año", "Placa", "Costo", "Precio"            .addComponent(btnModuloVentas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnCerrarSesion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(23, 23, 23))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3))ado"};
+    String[] columnas = {"Marca", "Modelo", "Año", "Placa", "Costo", "Precio", "Estado"};
     String nombre;
     String marca;
     String modelo;
@@ -26,7 +20,6 @@ public class frmConcesionario extends javax.swing.JFrame {
     String valor;
     String detalles;
     private CRUD crud;
-    private javax.swing.JButton btnCerrarSesion;
 
     /**
      * Creates new form frmConcesionario
@@ -35,32 +28,6 @@ public class frmConcesionario extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null); // Centrar la ventana en la pantalla
         listaVehiculos = new ArrayList<>();
-        
-        // Inicializar botón cerrar sesión
-        btnCerrarSesion = new javax.swing.JButton();
-        btnCerrarSesion.setText("Cerrar Sesión");
-        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cerrarSesion();
-            }
-        });
-        
-        // Agregamos el botón al panel
-        javax.swing.GroupLayout layout = (javax.swing.GroupLayout) getContentPane().getLayout();
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCerrarSesion)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnCerrarSesion)
-                .addContainerGap())
-        );
         
         // Ocultar campos no necesarios
         txtNombrePropietario.setVisible(false);
@@ -285,16 +252,8 @@ public class frmConcesionario extends javax.swing.JFrame {
         btnBuscarVehiculo = new javax.swing.JButton();
         btnActualizarVehiculo = new javax.swing.JButton();
         btnModuloVentas = new javax.swing.JButton();
-        btnCerrarSesion = new javax.swing.JButton(); // Agregamos el nuevo botón
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        btnCerrarSesion.setText("Cerrar Sesión"); // Configuramos el texto
-        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCerrarSesionActionPerformed(evt);
-            }
-        });
 
         tbInfo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -374,13 +333,6 @@ public class frmConcesionario extends javax.swing.JFrame {
 
         btnModuloVentas.setText("Ventas");
 
-        btnCerrarSesion.setText("Cerrar Sesión");
-        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCerrarSesionActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -417,1546 +369,267 @@ public class frmConcesionario extends javax.swing.JFrame {
                             .addComponent(btnMenuCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnBuscarVehiculo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnAgregar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnModuloVentas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnCerrarSesion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnModuloVentas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(23, 23, 23))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel3))ado"}
-    String nombre;
-    String marca;
-    String modelo;
-    String año;
-    String placa;
-    String valor;
-    String detalles;
-    private CRUD crud;
-    private javax.swing.JButton btnCerrarSesion;
-
-    /**
-     * Creates new form frmConcesionario
-     */
-    public frmConcesionario() {
-        initComponents();
-        this.setLocationRelativeTo(null); // Centrar la ventana en la pantalla
-        listaVehiculos = new ArrayList<>();
-        
-        // Inicializar botón cerrar sesión
-        btnCerrarSesion = new javax.swing.JButton();
-        btnCerrarSesion.setText("Cerrar Sesión");
-        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cerrarSesion();
-            }
-        });
-        
-        // Agregamos el botón al panel
-        javax.swing.GroupLayout layout = (javax.swing.GroupLayout) getContentPane().getLayout();
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCerrarSesion)
-                .addContainerGap())
+                            .addComponent(jLabel3))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtNombrePropietario, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(15, 15, 15)
+                                .addComponent(txtAño, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel7))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(SelectEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(comboMarca, 0, 144, Short.MAX_VALUE))
+                        .addGap(23, 23, 23))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnCerrarSesion)
-                .addContainerGap())
-        );
-        
-        // Ocultar campos no necesarios
-        txtNombrePropietario.setVisible(false);
-        txtValor.setVisible(false);
-        jLabel1.setVisible(false); // Label de Propietario
-        jLabel6.setVisible(false); // Label de Valor
-        
-        // Inicializar campos
-        txtAño.setText("");
-        txtModelo.setText("");
-        txtPlaca.setText("");
-        
-        crud = new CRUD();
-        configurarTabla();
-        cargarVehiculos();
-    }
-
-    private void cargarVehiculos() {
-        try {
-            ResultSet rs = crud.obtenerVehiculos();
-            DefaultTableModel modelo = (DefaultTableModel) tbInfo.getModel();
-            modelo.setRowCount(0);
-
-            while (rs.next()) {
-                Object[] fila = {
-                    rs.getString("marca"),
-                    rs.getString("modelo"),
-                    rs.getInt("anio"),
-                    rs.getString("placa"),
-                    rs.getDouble("costo"),
-                    rs.getDouble("precio"),
-                    rs.getString("estado")
-                };
-                modelo.addRow(fila);
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this,
-                "Error al cargar los vehículos: " + e.getMessage(),
-                "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    public void configurarTabla() {
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.setColumnIdentifiers(columnas);
-        tbInfo.setModel(modelo);
-    }
-
-    public void llenarCombo() {
-        comboMarca.removeAllItems();
-        comboMarca.addItem("Seleccione...");
-        comboMarca.addItem("TOYOTA");
-        comboMarca.addItem("AUDI");
-        comboMarca.addItem("BMW");
-        comboMarca.addItem("MERCEDES BENZ");
-        comboMarca.addItem("KIA");
-        comboMarca.addItem("CHEVROLET");
-        comboMarca.addItem("RENAULT");
-        comboMarca.addItem("VOLKSWAGEN");
-        comboMarca.addItem("MITSUBISHI");
-        comboMarca.addItem("MAZDA");
-        comboMarca.addItem("NISSAN");
-    }
-
-    public void Guardar() {
-        try {
-            placa = txtPlaca.getText().toUpperCase();
-            modelo = txtModelo.getText().toUpperCase();
-            año = txtAño.getText();
-            marca = comboMarca.getSelectedItem().toString();
-            detalles = tDetalles.getText();
-
-            if (validarCampos()) {
-                if (!crud.existePlaca(placa)) {
-                    double costo = 0;
-                    double precio = 0;
-                    boolean costosValidos = false;
-                    
-                    // Obtener estado del ComboBox (1 = nuevo, 2 = usado)
-                    int estado = SelectEstado.getSelectedIndex() + 1;
-
-                    while (!costosValidos) {
-                        try {
-                            String costoStr = JOptionPane.showInputDialog(this, 
-                                "Ingrese el costo de compra del vehículo:", 
-                                "Costo", JOptionPane.QUESTION_MESSAGE);
-                            
-                            if (costoStr == null) return; // Usuario canceló
-                            
-                            String precioStr = JOptionPane.showInputDialog(this,
-                                "Ingrese el precio de venta esperado:",
-                                "Precio", JOptionPane.QUESTION_MESSAGE);
-                            
-                            if (precioStr == null) return; // Usuario canceló
-                            
-                            costo = Double.parseDouble(costoStr);
-                            precio = Double.parseDouble(precioStr);
-                            
-                            if (costo >= precio) {
-                                JOptionPane.showMessageDialog(this,
-                                    "El costo debe ser menor que el precio de venta",
-                                    "Error", JOptionPane.ERROR_MESSAGE);
-                            } else if (costo <= 0 || precio <= 0) {
-                                JOptionPane.showMessageDialog(this,
-                                    "El costo y precio deben ser mayores a 0",
-                                    "Error", JOptionPane.ERROR_MESSAGE);
-                            } else {
-                                costosValidos = true;
-                            }
-                        } catch (NumberFormatException e) {
-                            JOptionPane.showMessageDialog(this,
-                                "Por favor, ingrese valores numéricos válidos",
-                                "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    }
-
-                    int resultado = crud.insertarVehiculo(
-                        placa, marca, modelo,
-                        Integer.parseInt(año),
-                        costo, precio,
-                        estado,
-                        detalles
-                    );
-
-                    if (resultado > 0) {
-                        JOptionPane.showMessageDialog(this,
-                            "Vehículo guardado exitosamente",
-                            "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                        limpiarCampos();
-                        cargarVehiculos();
-                    } else {
-                        JOptionPane.showMessageDialog(this,
-                            "Error al guardar el vehículo",
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(this,
-                        "La placa ya está registrada en el sistema",
-                        "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this,
-                "Por favor, ingrese valores numéricos válidos para el año",
-                "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private boolean validarCampos() {
-        if (marca.equals("Seleccione...") || modelo.isEmpty() ||
-            año.isEmpty() || placa.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                "Por favor complete los campos: Marca, Modelo, Año y Placa",
-                "Error", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        
-        try {
-            int anioNum = Integer.parseInt(año);
-            int anioActual = 2025; // Esto debería obtenerse del sistema
-            if (anioNum < 1900 || anioNum > anioActual) {
-                JOptionPane.showMessageDialog(this,
-                    "El año debe estar entre 1900 y " + anioActual,
-                    "Error", JOptionPane.ERROR_MESSAGE);
-                return false;
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this,
-                "El año debe ser un número válido",
-                "Error", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        
-        if (placa.length() < 6 || placa.length() > 7) {
-            JOptionPane.showMessageDialog(this,
-                "La placa debe tener entre 6 y 7 caracteres",
-                "Error", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        
-        return true;
-    }
-
-    private void limpiarCampos() {
-        txtModelo.setText("");
-        txtAño.setText("");
-        txtPlaca.setText("");
-        comboMarca.setSelectedIndex(0);
-        tDetalles.setText("");
-    }
-
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tbInfo = new javax.swing.JTable();
-        comboMarca = new javax.swing.JComboBox<>();
-        txtNombrePropietario = new javax.swing.JTextField();
-        txtAño = new javax.swing.JTextField();
-        txtModelo = new javax.swing.JTextField();
-        txtPlaca = new javax.swing.JTextField();
-        txtValor = new javax.swing.JTextField();
-        btnAgregar = new javax.swing.JToggleButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        SelectEstado = new javax.swing.JComboBox<>();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tDetalles = new javax.swing.JTextArea();
-        jLabel8 = new javax.swing.JLabel();
-        btnMenuCliente = new javax.swing.JButton();
-        btnBuscarVehiculo = new javax.swing.JButton();
-        btnActualizarVehiculo = new javax.swing.JButton();
-        btnModuloVentas = new javax.swing.JButton();
-        btnCerrarSesion = new javax.swing.JButton(); // Agregamos el nuevo botón
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        btnCerrarSesion.setText("Cerrar Sesión"); // Configuramos el texto
-        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCerrarSesionActionPerformed(evt);
-            }
-        });
-
-        tbInfo.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(tbInfo);
-
-        comboMarca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "TOYOTA", "AUDI", "BMW", "MERCEDES BENZ", "KIA", "CHEVROLET", "REANAULT", "VOLSKWAGEN", "MITSUBISHI", "MAZDA", "NISSAN", " " }));
-        comboMarca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboMarcaActionPerformed(evt);
-            }
-        });
-
-        txtNombrePropietario.setText("jTextField1");
-
-        txtAño.setText("jTextField2");
-
-        txtModelo.setText("jTextField3");
-        txtModelo.setPreferredSize(new java.awt.Dimension(100, 22));
-        txtModelo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtModeloActionPerformed(evt);
-            }
-        });
-
-        txtPlaca.setText("jTextField4");
-
-        txtValor.setText("jTextField5");
-
-        btnAgregar.setText("Agregar");
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("Nombre del propietario :");
-
-        jLabel2.setText("Marca del vehiculo :");
-
-        jLabel3.setText("Año del modelo :");
-
-        jLabel4.setText("Modelo del vehiculo :");
-
-        jLabel5.setText("Placa del vehiculo :");
-
-        jLabel6.setText("Valor del Vehiculo");
-
-        jLabel7.setText("Estado");
-
-        SelectEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nuevo", "Usado" }));
-
-        tDetalles.setColumns(20);
-        tDetalles.setRows(5);
-        jScrollPane2.setViewportView(tDetalles);
-
-        jLabel8.setText("Detalles");
-
-        btnMenuCliente.setText("Menu Cliente");
-        btnMenuCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMenuClienteActionPerformed(evt);
-            }
-        });
-
-        btnBuscarVehiculo.setText("Buscar Vehiculo");
-
-        btnActualizarVehiculo.setText("Actualizar Vehiculo");
-
-        btnModuloVentas.setText("Ventas");
-
-        btnCerrarSesion.setText("Cerrar Sesión");
-        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCerrarSesionActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombrePropietario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtAño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel7)
+                    .addComponent(SelectEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel4)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(31, 31, 31)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(txtValor, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtPlaca))
-                                    .addGap(182, 182, 182)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(186, 186, 186)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnActualizarVehiculo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnMenuCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnBuscarVehiculo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAgregar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnModuloVentas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnCerrarSesion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(23, 23, 23))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3))ado"};
-    String nombre;
-    String marca;
-    String modelo;
-    String año;
-    String placa;
-    String valor;
-    String detalles;
-    private CRUD crud;
-    private javax.swing.JButton btnCerrarSesion;
-
-    /**
-     * Creates new form frmConcesionario
-     */
-    public frmConcesionario() {
-        initComponents();
-        this.setLocationRelativeTo(null); // Centrar la ventana en la pantalla
-        listaVehiculos = new ArrayList<>();
-        
-        // Inicializar botón cerrar sesión
-        btnCerrarSesion = new javax.swing.JButton();
-        btnCerrarSesion.setText("Cerrar Sesión");
-        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cerrarSesion();
-            }
-        });
-        
-        // Agregamos el botón al panel
-        javax.swing.GroupLayout layout = (javax.swing.GroupLayout) getContentPane().getLayout();
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCerrarSesion)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnCerrarSesion)
-                .addContainerGap())
-        );
-        
-        // Ocultar campos no necesarios
-        txtNombrePropietario.setVisible(false);
-        txtValor.setVisible(false);
-        jLabel1.setVisible(false); // Label de Propietario
-        jLabel6.setVisible(false); // Label de Valor
-        
-        // Inicializar campos
-        txtAño.setText("");
-        txtModelo.setText("");
-        txtPlaca.setText("");
-        
-        crud = new CRUD();
-        configurarTabla();
-        cargarVehiculos();
-    }
-
-    private void cargarVehiculos() {
-        try {
-            ResultSet rs = crud.obtenerVehiculos();
-            DefaultTableModel modelo = (DefaultTableModel) tbInfo.getModel();
-            modelo.setRowCount(0);
-
-            while (rs.next()) {
-                Object[] fila = {
-                    rs.getString("marca"),
-                    rs.getString("modelo"),
-                    rs.getInt("anio"),
-                    rs.getString("placa"),
-                    rs.getDouble("costo"),
-                    rs.getDouble("precio"),
-                    rs.getString("estado")
-                };
-                modelo.addRow(fila);
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this,
-                "Error al cargar los vehículos: " + e.getMessage(),
-                "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    public void configurarTabla() {
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.setColumnIdentifiers(columnas);
-        tbInfo.setModel(modelo);
-    }
-
-    public void llenarCombo() {
-        comboMarca.removeAllItems();
-        comboMarca.addItem("Seleccione...");
-        comboMarca.addItem("TOYOTA");
-        comboMarca.addItem("AUDI");
-        comboMarca.addItem("BMW");
-        comboMarca.addItem("MERCEDES BENZ");
-        comboMarca.addItem("KIA");
-        comboMarca.addItem("CHEVROLET");
-        comboMarca.addItem("RENAULT");
-        comboMarca.addItem("VOLKSWAGEN");
-        comboMarca.addItem("MITSUBISHI");
-        comboMarca.addItem("MAZDA");
-        comboMarca.addItem("NISSAN");
-    }
-
-    public void Guardar() {
-        try {
-            placa = txtPlaca.getText().toUpperCase();
-            modelo = txtModelo.getText().toUpperCase();
-            año = txtAño.getText();
-            marca = comboMarca.getSelectedItem().toString();
-            detalles = tDetalles.getText();
-
-            if (validarCampos()) {
-                if (!crud.existePlaca(placa)) {
-                    double costo = 0;
-                    double precio = 0;
-                    boolean costosValidos = false;
-                    
-                    // Obtener estado del ComboBox (1 = nuevo, 2 = usado)
-                    int estado = SelectEstado.getSelectedIndex() + 1;
-
-                    while (!costosValidos) {
-                        try {
-                            String costoStr = JOptionPane.showInputDialog(this, 
-                                "Ingrese el costo de compra del vehículo:", 
-                                "Costo", JOptionPane.QUESTION_MESSAGE);
-                            
-                            if (costoStr == null) return; // Usuario canceló
-                            
-                            String precioStr = JOptionPane.showInputDialog(this,
-                                "Ingrese el precio de venta esperado:",
-                                "Precio", JOptionPane.QUESTION_MESSAGE);
-                            
-                            if (precioStr == null) return; // Usuario canceló
-                            
-                            costo = Double.parseDouble(costoStr);
-                            precio = Double.parseDouble(precioStr);
-                            
-                            if (costo >= precio) {
-                                JOptionPane.showMessageDialog(this,
-                                    "El costo debe ser menor que el precio de venta",
-                                    "Error", JOptionPane.ERROR_MESSAGE);
-                            } else if (costo <= 0 || precio <= 0) {
-                                JOptionPane.showMessageDialog(this,
-                                    "El costo y precio deben ser mayores a 0",
-                                    "Error", JOptionPane.ERROR_MESSAGE);
-                            } else {
-                                costosValidos = true;
-                            }
-                        } catch (NumberFormatException e) {
-                            JOptionPane.showMessageDialog(this,
-                                "Por favor, ingrese valores numéricos válidos",
-                                "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    }
-
-                    int resultado = crud.insertarVehiculo(
-                        placa, marca, modelo,
-                        Integer.parseInt(año),
-                        costo, precio,
-                        estado,
-                        detalles
-                    );
-
-                    if (resultado > 0) {
-                        JOptionPane.showMessageDialog(this,
-                            "Vehículo guardado exitosamente",
-                            "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                        limpiarCampos();
-                        cargarVehiculos();
-                    } else {
-                        JOptionPane.showMessageDialog(this,
-                            "Error al guardar el vehículo",
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(this,
-                        "La placa ya está registrada en el sistema",
-                        "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this,
-                "Por favor, ingrese valores numéricos válidos para el año",
-                "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private boolean validarCampos() {
-        if (marca.equals("Seleccione...") || modelo.isEmpty() ||
-            año.isEmpty() || placa.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                "Por favor complete los campos: Marca, Modelo, Año y Placa",
-                "Error", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        
-        try {
-            int anioNum = Integer.parseInt(año);
-            int anioActual = 2025; // Esto debería obtenerse del sistema
-            if (anioNum < 1900 || anioNum > anioActual) {
-                JOptionPane.showMessageDialog(this,
-                    "El año debe estar entre 1900 y " + anioActual,
-                    "Error", JOptionPane.ERROR_MESSAGE);
-                return false;
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this,
-                "El año debe ser un número válido",
-                "Error", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        
-        if (placa.length() < 6 || placa.length() > 7) {
-            JOptionPane.showMessageDialog(this,
-                "La placa debe tener entre 6 y 7 caracteres",
-                "Error", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        
-        return true;
-    }
-
-    private void limpiarCampos() {
-        txtModelo.setText("");
-        txtAño.setText("");
-        txtPlaca.setText("");
-        comboMarca.setSelectedIndex(0);
-        tDetalles.setText("");
-    }
-
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tbInfo = new javax.swing.JTable();
-        comboMarca = new javax.swing.JComboBox<>();
-        txtNombrePropietario = new javax.swing.JTextField();
-        txtAño = new javax.swing.JTextField();
-        txtModelo = new javax.swing.JTextField();
-        txtPlaca = new javax.swing.JTextField();
-        txtValor = new javax.swing.JTextField();
-        btnAgregar = new javax.swing.JToggleButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        SelectEstado = new javax.swing.JComboBox<>();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tDetalles = new javax.swing.JTextArea();
-        jLabel8 = new javax.swing.JLabel();
-        btnMenuCliente = new javax.swing.JButton();
-        btnBuscarVehiculo = new javax.swing.JButton();
-        btnActualizarVehiculo = new javax.swing.JButton();
-        btnModuloVentas = new javax.swing.JButton();
-        btnCerrarSesion = new javax.swing.JButton(); // Agregamos el nuevo botón
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        btnCerrarSesion.setText("Cerrar Sesión"); // Configuramos el texto
-        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCerrarSesionActionPerformed(evt);
-            }
-        });
-
-        tbInfo.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(tbInfo);
-
-        comboMarca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "TOYOTA", "AUDI", "BMW", "MERCEDES BENZ", "KIA", "CHEVROLET", "REANAULT", "VOLSKWAGEN", "MITSUBISHI", "MAZDA", "NISSAN", " " }));
-        comboMarca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboMarcaActionPerformed(evt);
-            }
-        });
-
-        txtNombrePropietario.setText("jTextField1");
-
-        txtAño.setText("jTextField2");
-
-        txtModelo.setText("jTextField3");
-        txtModelo.setPreferredSize(new java.awt.Dimension(100, 22));
-        txtModelo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtModeloActionPerformed(evt);
-            }
-        });
-
-        txtPlaca.setText("jTextField4");
-
-        txtValor.setText("jTextField5");
-
-        btnAgregar.setText("Agregar");
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("Nombre del propietario :");
-
-        jLabel2.setText("Marca del vehiculo :");
-
-        jLabel3.setText("Año del modelo :");
-
-        jLabel4.setText("Modelo del vehiculo :");
-
-        jLabel5.setText("Placa del vehiculo :");
-
-        jLabel6.setText("Valor del Vehiculo");
-
-        jLabel7.setText("Estado");
-
-        SelectEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nuevo", "Usado" }));
-
-        tDetalles.setColumns(20);
-        tDetalles.setRows(5);
-        jScrollPane2.setViewportView(tDetalles);
-
-        jLabel8.setText("Detalles");
-
-        btnMenuCliente.setText("Menu Cliente");
-        btnMenuCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMenuClienteActionPerformed(evt);
-            }
-        });
-
-        btnBuscarVehiculo.setText("Buscar Vehiculo");
-
-        btnActualizarVehiculo.setText("Actualizar Vehiculo");
-
-        btnModuloVentas.setText("Ventas");
-
-        btnCerrarSesion.setText("Cerrar Sesión");
-        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCerrarSesionActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                        .addGap(16, 16, 16)
+                        .addComponent(btnAgregar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnBuscarVehiculo)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addContainerGap())
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel4)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(31, 31, 31)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(txtValor, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtPlaca))
-                                    .addGap(182, 182, 182)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(186, 186, 186)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnActualizarVehiculo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnMenuCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnBuscarVehiculo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAgregar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnModuloVentas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnCerrarSesion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(23, 23, 23))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3))ado"};
-    String nombre;
-    String marca;
-    String modelo;
-    String año;
-    String placa;
-    String valor;
-    String detalles;
-    private CRUD crud;
-    private javax.swing.JButton btnCerrarSesion;
-
-    /**
-     * Creates new form frmConcesionario
-     */
-    public frmConcesionario() {
-        initComponents();
-        this.setLocationRelativeTo(null); // Centrar la ventana en la pantalla
-        listaVehiculos = new ArrayList<>();
-        
-        // Inicializar botón cerrar sesión
-        btnCerrarSesion = new javax.swing.JButton();
-        btnCerrarSesion.setText("Cerrar Sesión");
-        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cerrarSesion();
-            }
-        });
-        
-        // Agregamos el botón al panel
-        javax.swing.GroupLayout layout = (javax.swing.GroupLayout) getContentPane().getLayout();
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCerrarSesion)
+                        .addComponent(btnActualizarVehiculo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnMenuCliente)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnModuloVentas)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnCerrarSesion)
-                .addContainerGap())
-        );
-        
-        // Ocultar campos no necesarios
-        txtNombrePropietario.setVisible(false);
-        txtValor.setVisible(false);
-        jLabel1.setVisible(false); // Label de Propietario
-        jLabel6.setVisible(false); // Label de Valor
-        
-        // Inicializar campos
-        txtAño.setText("");
-        txtModelo.setText("");
-        txtPlaca.setText("");
-        
-        crud = new CRUD();
-        configurarTabla();
-        cargarVehiculos();
-    }
 
-    private void cargarVehiculos() {
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        Guardar();
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void comboMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboMarcaActionPerformed
+        // TODO add your handling code here:
+
+
+    }//GEN-LAST:event_comboMarcaActionPerformed
+
+    private void txtModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtModeloActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtModeloActionPerformed
+
+    private void btnBuscarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarVehiculoActionPerformed
+        String placaBuscar = txtPlaca.getText().toUpperCase();
+        if (placaBuscar.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                "Por favor ingrese una placa para buscar",
+                "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         try {
-            ResultSet rs = crud.obtenerVehiculos();
-            DefaultTableModel modelo = (DefaultTableModel) tbInfo.getModel();
-            modelo.setRowCount(0);
-
-            while (rs.next()) {
-                Object[] fila = {
-                    rs.getString("marca"),
-                    rs.getString("modelo"),
-                    rs.getInt("anio"),
-                    rs.getString("placa"),
-                    rs.getDouble("costo"),
-                    rs.getDouble("precio"),
-                    rs.getString("estado")
-                };
-                modelo.addRow(fila);
+            ResultSet rs = crud.obtenerVehiculoPorPlaca(placaBuscar);
+            if (rs.next()) {
+                // Cargar datos en el formulario
+                comboMarca.setSelectedItem(rs.getString("marca"));
+                txtModelo.setText(rs.getString("modelo"));
+                txtAño.setText(String.valueOf(rs.getInt("anio")));
+                txtPlaca.setText(rs.getString("placa"));
+                tDetalles.setText(rs.getString("detalle"));
+                SelectEstado.setSelectedIndex(rs.getInt("estado") - 1);
+                
+                // Deshabilitar campos que no deben modificarse
+                txtPlaca.setEnabled(false);
+                btnAgregar.setEnabled(false);
+                btnActualizarVehiculo.setEnabled(true);
+                
+                JOptionPane.showMessageDialog(this,
+                    "Vehículo encontrado",
+                    "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this,
+                    "No se encontró un vehículo con la placa especificada",
+                    "No encontrado", JOptionPane.WARNING_MESSAGE);
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this,
-                "Error al cargar los vehículos: " + e.getMessage(),
+                "Error al buscar el vehículo: " + e.getMessage(),
                 "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }
+    }//GEN-LAST:event_btnBuscarVehiculoActionPerformed
 
-    public void configurarTabla() {
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.setColumnIdentifiers(columnas);
-        tbInfo.setModel(modelo);
-    }
+    private void btnActualizarVehiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarVehiculoActionPerformed
+        modelo = txtModelo.getText().toUpperCase();
+        año = txtAño.getText();
+        marca = comboMarca.getSelectedItem().toString();
+        detalles = tDetalles.getText();
+        
+        if (validarCampos()) {
+            try {
+                double costo = 0;
+                double precio = 0;
+                boolean costosValidos = false;
+                int estado = SelectEstado.getSelectedIndex() + 1;
 
-    public void llenarCombo() {
-        comboMarca.removeAllItems();
-        comboMarca.addItem("Seleccione...");
-        comboMarca.addItem("TOYOTA");
-        comboMarca.addItem("AUDI");
-        comboMarca.addItem("BMW");
-        comboMarca.addItem("MERCEDES BENZ");
-        comboMarca.addItem("KIA");
-        comboMarca.addItem("CHEVROLET");
-        comboMarca.addItem("RENAULT");
-        comboMarca.addItem("VOLKSWAGEN");
-        comboMarca.addItem("MITSUBISHI");
-        comboMarca.addItem("MAZDA");
-        comboMarca.addItem("NISSAN");
-    }
-
-    public void Guardar() {
-        try {
-            placa = txtPlaca.getText().toUpperCase();
-            modelo = txtModelo.getText().toUpperCase();
-            año = txtAño.getText();
-            marca = comboMarca.getSelectedItem().toString();
-            detalles = tDetalles.getText();
-
-            if (validarCampos()) {
-                if (!crud.existePlaca(placa)) {
-                    double costo = 0;
-                    double precio = 0;
-                    boolean costosValidos = false;
-                    
-                    // Obtener estado del ComboBox (1 = nuevo, 2 = usado)
-                    int estado = SelectEstado.getSelectedIndex() + 1;
-
-                    while (!costosValidos) {
-                        try {
-                            String costoStr = JOptionPane.showInputDialog(this, 
-                                "Ingrese el costo de compra del vehículo:", 
-                                "Costo", JOptionPane.QUESTION_MESSAGE);
-                            
-                            if (costoStr == null) return; // Usuario canceló
-                            
-                            String precioStr = JOptionPane.showInputDialog(this,
-                                "Ingrese el precio de venta esperado:",
-                                "Precio", JOptionPane.QUESTION_MESSAGE);
-                            
-                            if (precioStr == null) return; // Usuario canceló
-                            
-                            costo = Double.parseDouble(costoStr);
-                            precio = Double.parseDouble(precioStr);
-                            
-                            if (costo >= precio) {
-                                JOptionPane.showMessageDialog(this,
-                                    "El costo debe ser menor que el precio de venta",
-                                    "Error", JOptionPane.ERROR_MESSAGE);
-                            } else if (costo <= 0 || precio <= 0) {
-                                JOptionPane.showMessageDialog(this,
-                                    "El costo y precio deben ser mayores a 0",
-                                    "Error", JOptionPane.ERROR_MESSAGE);
-                            } else {
-                                costosValidos = true;
-                            }
-                        } catch (NumberFormatException e) {
+                while (!costosValidos) {
+                    try {
+                        String costoStr = JOptionPane.showInputDialog(this, 
+                            "Ingrese el costo de compra del vehículo:", 
+                            "Costo", JOptionPane.QUESTION_MESSAGE);
+                        
+                        if (costoStr == null) return;
+                        
+                        String precioStr = JOptionPane.showInputDialog(this,
+                            "Ingrese el precio de venta esperado:",
+                            "Precio", JOptionPane.QUESTION_MESSAGE);
+                        
+                        if (precioStr == null) return;
+                        
+                        costo = Double.parseDouble(costoStr);
+                        precio = Double.parseDouble(precioStr);
+                        
+                        if (costo >= precio) {
                             JOptionPane.showMessageDialog(this,
-                                "Por favor, ingrese valores numéricos válidos",
+                                "El costo debe ser menor que el precio de venta",
                                 "Error", JOptionPane.ERROR_MESSAGE);
+                        } else if (costo <= 0 || precio <= 0) {
+                            JOptionPane.showMessageDialog(this,
+                                "El costo y precio deben ser mayores a 0",
+                                "Error", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            costosValidos = true;
                         }
-                    }
-
-                    int resultado = crud.insertarVehiculo(
-                        placa, marca, modelo,
-                        Integer.parseInt(año),
-                        costo, precio,
-                        estado,
-                        detalles
-                    );
-
-                    if (resultado > 0) {
+                    } catch (NumberFormatException e) {
                         JOptionPane.showMessageDialog(this,
-                            "Vehículo guardado exitosamente",
-                            "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                        limpiarCampos();
-                        cargarVehiculos();
-                    } else {
-                        JOptionPane.showMessageDialog(this,
-                            "Error al guardar el vehículo",
+                            "Por favor, ingrese valores numéricos válidos",
                             "Error", JOptionPane.ERROR_MESSAGE);
                     }
-                } else {
-                    JOptionPane.showMessageDialog(this,
-                        "La placa ya está registrada en el sistema",
-                        "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this,
-                "Por favor, ingrese valores numéricos válidos para el año",
-                "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
 
-    private boolean validarCampos() {
-        if (marca.equals("Seleccione...") || modelo.isEmpty() ||
-            año.isEmpty() || placa.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                "Por favor complete los campos: Marca, Modelo, Año y Placa",
-                "Error", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        
-        try {
-            int anioNum = Integer.parseInt(año);
-            int anioActual = 2025; // Esto debería obtenerse del sistema
-            if (anioNum < 1900 || anioNum > anioActual) {
-                JOptionPane.showMessageDialog(this,
-                    "El año debe estar entre 1900 y " + anioActual,
-                    "Error", JOptionPane.ERROR_MESSAGE);
-                return false;
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this,
-                "El año debe ser un número válido",
-                "Error", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        
-        if (placa.length() < 6 || placa.length() > 7) {
-            JOptionPane.showMessageDialog(this,
-                "La placa debe tener entre 6 y 7 caracteres",
-                "Error", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        
-        return true;
-    }
+                int resultado = crud.actualizarVehiculo(
+                    txtPlaca.getText(),
+                    marca,
+                    modelo,
+                    Integer.parseInt(año),
+                    costo,
+                    precio,
+                    estado,
+                    detalles
+                );
 
-    private void limpiarCampos() {
-        txtModelo.setText("");
-        txtAño.setText("");
-        txtPlaca.setText("");
-        comboMarca.setSelectedIndex(0);
-        tDetalles.setText("");
-    }
-
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tbInfo = new javax.swing.JTable();
-        comboMarca = new javax.swing.JComboBox<>();
-        txtNombrePropietario = new javax.swing.JTextField();
-        txtAño = new javax.swing.JTextField();
-        txtModelo = new javax.swing.JTextField();
-        txtPlaca = new javax.swing.JTextField();
-        txtValor = new javax.swing.JTextField();
-        btnAgregar = new javax.swing.JToggleButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        SelectEstado = new javax.swing.JComboBox<>();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tDetalles = new javax.swing.JTextArea();
-        jLabel8 = new javax.swing.JLabel();
-        btnMenuCliente = new javax.swing.JButton();
-        btnBuscarVehiculo = new javax.swing.JButton();
-        btnActualizarVehiculo = new javax.swing.JButton();
-        btnModuloVentas = new javax.swing.JButton();
-        btnCerrarSesion = new javax.swing.JButton(); // Agregamos el nuevo botón
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        btnCerrarSesion.setText("Cerrar Sesión"); // Configuramos el texto
-        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCerrarSesionActionPerformed(evt);
-            }
-        });
-
-        tbInfo.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(tbInfo);
-
-        comboMarca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "TOYOTA", "AUDI", "BMW", "MERCEDES BENZ", "KIA", "CHEVROLET", "REANAULT", "VOLSKWAGEN", "MITSUBISHI", "MAZDA", "NISSAN", " " }));
-        comboMarca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboMarcaActionPerformed(evt);
-            }
-        });
-
-        txtNombrePropietario.setText("jTextField1");
-
-        txtAño.setText("jTextField2");
-
-        txtModelo.setText("jTextField3");
-        txtModelo.setPreferredSize(new java.awt.Dimension(100, 22));
-        txtModelo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtModeloActionPerformed(evt);
-            }
-        });
-
-        txtPlaca.setText("jTextField4");
-
-        txtValor.setText("jTextField5");
-
-        btnAgregar.setText("Agregar");
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("Nombre del propietario :");
-
-        jLabel2.setText("Marca del vehiculo :");
-
-        jLabel3.setText("Año del modelo :");
-
-        jLabel4.setText("Modelo del vehiculo :");
-
-        jLabel5.setText("Placa del vehiculo :");
-
-        jLabel6.setText("Valor del Vehiculo");
-
-        jLabel7.setText("Estado");
-
-        SelectEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nuevo", "Usado" }));
-
-        tDetalles.setColumns(20);
-        tDetalles.setRows(5);
-        jScrollPane2.setViewportView(tDetalles);
-
-        jLabel8.setText("Detalles");
-
-        btnMenuCliente.setText("Menu Cliente");
-        btnMenuCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMenuClienteActionPerformed(evt);
-            }
-        });
-
-        btnBuscarVehiculo.setText("Buscar Vehiculo");
-
-        btnActualizarVehiculo.setText("Actualizar Vehiculo");
-
-        btnModuloVentas.setText("Ventas");
-
-        btnCerrarSesion.setText("Cerrar Sesión");
-        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCerrarSesionActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel4)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(31, 31, 31)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(txtValor, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtPlaca))
-                                    .addGap(182, 182, 182)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(186, 186, 186)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnActualizarVehiculo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnMenuCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnBuscarVehiculo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAgregar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnModuloVentas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnCerrarSesion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(23, 23, 23))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3))ado"};
-    String nombre;
-    String marca;
-    String modelo;
-    String año;
-    String placa;
-    String valor;
-    String detalles;
-    private CRUD crud;
-    private javax.swing.JButton btnCerrarSesion;
-
-    /**
-     * Creates new form frmConcesionario
-     */
-    public frmConcesionario() {
-        initComponents();
-        this.setLocationRelativeTo(null); // Centrar la ventana en la pantalla
-        listaVehiculos = new ArrayList<>();
-        
-        // Inicializar botón cerrar sesión
-        btnCerrarSesion = new javax.swing.JButton();
-        btnCerrarSesion.setText("Cerrar Sesión");
-        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cerrarSesion();
-            }
-        });
-        
-        // Agregamos el botón al panel
-        javax.swing.GroupLayout layout = (javax.swing.GroupLayout) getContentPane().getLayout();
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCerrarSesion)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnCerrarSesion)
-                .addContainerGap())
-        );
-        
-        // Ocultar campos no necesarios
-        txtNombrePropietario.setVisible(false);
-        txtValor.setVisible(false);
-        jLabel1.setVisible(false); // Label de Propietario
-        jLabel6.setVisible(false); // Label de Valor
-        
-        // Inicializar campos
-        txtAño.setText("");
-        txtModelo.setText("");
-        txtPlaca.setText("");
-        
-        crud = new CRUD();
-        configurarTabla();
-        cargarVehiculos();
-    }
-
-    private void cargarVehiculos() {
-        try {
-            ResultSet rs = crud.obtenerVehiculos();
-            DefaultTableModel modelo = (DefaultTableModel) tbInfo.getModel();
-            modelo.setRowCount(0);
-
-            while (rs.next()) {
-                Object[] fila = {
-                    rs.getString("marca"),
-                    rs.getString("modelo"),
-                    rs.getInt("anio"),
-                    rs.getString("placa"),
-                    rs.getDouble("costo"),
-                    rs.getDouble("precio"),
-                    rs.getString("estado")
-                };
-                modelo.addRow(fila);
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this,
-                "Error al cargar los vehículos: " + e.getMessage(),
-                "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    public void configurarTabla() {
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.setColumnIdentifiers(columnas);
-        tbInfo.setModel(modelo);
-    }
-
-    public void llenarCombo() {
-        comboMarca.removeAllItems();
-        comboMarca.addItem("Seleccione...");
-        comboMarca.addItem("TOYOTA");
-        comboMarca.addItem("AUDI");
-        comboMarca.addItem("BMW");
-        comboMarca.addItem("MERCEDES BENZ");
-        comboMarca.addItem("KIA");
-        comboMarca.addItem("CHEVROLET");
-        comboMarca.addItem("RENAULT");
-        comboMarca.addItem("VOLKSWAGEN");
-        comboMarca.addItem("MITSUBISHI");
-        comboMarca.addItem("MAZDA");
-        comboMarca.addItem("NISSAN");
-    }
-
-    public void Guardar() {
-        try {
-            placa = txtPlaca.getText().toUpperCase();
-            modelo = txtModelo.getText().toUpperCase();
-            año = txtAño.getText();
-            marca = comboMarca.getSelectedItem().toString();
-            detalles = tDetalles.getText();
-
-            if (validarCampos()) {
-                if (!crud.existePlaca(placa)) {
-                    double costo = 0;
-                    double precio = 0;
-                    boolean costosValidos = false;
+                if (resultado > 0) {
+                    JOptionPane.showMessageDialog(this,
+                        "Vehículo actualizado exitosamente",
+                        "Éxito", JOptionPane.INFORMATION_MESSAGE);
                     
-                    // Obtener estado del ComboBox (1 = nuevo, 2 = usado)
-                    int estado = SelectEstado.getSelectedIndex() + 1;
-
-                    while (!costosValidos) {
-                        try {
-                            String costoStr = JOptionPane.showInputDialog(this, 
-                                "Ingrese el costo de compra del vehículo:", 
-                                "Costo", JOptionPane.QUESTION_MESSAGE);
-                            
-                            if (costoStr == null) return; // Usuario canceló
-                            
-                            String precioStr = JOptionPane.showInputDialog(this,
-                                "Ingrese el precio de venta esperado:",
-                                "Precio", JOptionPane.QUESTION_MESSAGE);
-                            
-                            if (precioStr == null) return; // Usuario canceló
-                            
-                            costo = Double.parseDouble(costoStr);
-                            precio = Double.parseDouble(precioStr);
-                            
-                            if (costo >= precio) {
-                                JOptionPane.showMessageDialog(this,
-                                    "El costo debe ser menor que el precio de venta",
-                                    "Error", JOptionPane.ERROR_MESSAGE);
-                            } else if (costo <= 0 || precio <= 0) {
-                                JOptionPane.showMessageDialog(this,
-                                    "El costo y precio deben ser mayores a 0",
-                                    "Error", JOptionPane.ERROR_MESSAGE);
-                            } else {
-                                costosValidos = true;
-                            }
-                        } catch (NumberFormatException e) {
-                            JOptionPane.showMessageDialog(this,
-                                "Por favor, ingrese valores numéricos válidos",
-                                "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    }
-
-                    int resultado = crud.insertarVehiculo(
-                        placa, marca, modelo,
-                        Integer.parseInt(año),
-                        costo, precio,
-                        estado,
-                        detalles
-                    );
-
-                    if (resultado > 0) {
-                        JOptionPane.showMessageDialog(this,
-                            "Vehículo guardado exitosamente",
-                            "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                        limpiarCampos();
-                        cargarVehiculos();
-                    } else {
-                        JOptionPane.showMessageDialog(this,
-                            "Error al guardar el vehículo",
-                            "Error", JOptionPane.ERROR_MESSAGE);
-                    }
+                    // Habilitar campos y botones
+                    txtPlaca.setEnabled(true);
+                    btnAgregar.setEnabled(true);
+                    btnActualizarVehiculo.setEnabled(false);
+                    
+                    limpiarCampos();
+                    cargarVehiculos();
                 } else {
                     JOptionPane.showMessageDialog(this,
-                        "La placa ya está registrada en el sistema",
+                        "Error al actualizar el vehículo",
                         "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this,
-                "Por favor, ingrese valores numéricos válidos para el año",
-                "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private boolean validarCampos() {
-        if (marca.equals("Seleccione...") || modelo.isEmpty() ||
-            año.isEmpty() || placa.isEmpty()) {
-            JOptionPane.showMessageDialog(this,
-                "Por favor complete los campos: Marca, Modelo, Año y Placa",
-                "Error", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        
-        try {
-            int anioNum = Integer.parseInt(año);
-            int anioActual = 2025; // Esto debería obtenerse del sistema
-            if (anioNum < 1900 || anioNum > anioActual) {
+            } catch (SQLException e) {
                 JOptionPane.showMessageDialog(this,
-                    "El año debe estar entre 1900 y " + anioActual,
+                    "Error al actualizar el vehículo: " + e.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
-                return false;
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this,
+                    "Por favor, ingrese valores numéricos válidos para el año",
+                    "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this,
-                "El año debe ser un número válido",
-                "Error", JOptionPane.ERROR_MESSAGE);
-            return false;
         }
-        
-        if (placa.length() < 6 || placa.length() > 7) {
-            JOptionPane.showMessageDialog(this,
-                "La placa debe tener entre 6 y 7 caracteres",
-                "Error", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-        
-        return true;
-    }
+    }//GEN-LAST:event_btnActualizarVehiculoActionPerformed
 
-    private void limpiarCampos() {
-        txtModelo.setText("");
-        txtAño.setText("");
-        txtPlaca.setText("");
-        comboMarca.setSelectedIndex(0);
-        tDetalles.setText("");
-    }
+    private void btnMenuClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenuClienteActionPerformed
+        javax.swing.JFrame frame = new javax.swing.JFrame("Registro de Cliente");
+        frame.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
+        ModalRegistroCliente modalCliente = new ModalRegistroCliente();
+        frame.getContentPane().add(modalCliente);
+        frame.setSize(680, 420);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }//GEN-LAST:event_btnMenuClienteActionPerformed
+
+
 
     /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
+     * @param args the command line arguments
      */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tbInfo = new javax.swing.JTable();
-        comboMarca = new javax.swing.JComboBox<>();
-        txtNombrePropietario = new javax.swing.JTextField();
-        txtAño = new javax.swing.JTextField();
-        txtModelo = new javax.swing.JTextField();
-        txtPlaca = new javax.swing.JTextField();
-        txtValor = new javax.swing.JTextField();
-        btnAgregar = new javax.swing.JToggleButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        SelectEstado = new javax.swing.JComboBox<>();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tDetalles = new javax.swing.JTextArea();
-        jLabel8 = new javax.swing.JLabel();
-        btnMenuCliente = new javax.swing.JButton();
-        btnBuscarVehiculo = new javax.swing.JButton();
-        btnActualizarVehiculo = new javax.swing.JButton();
-        btnModuloVentas = new javax.swing.JButton();
-        btnCerrarSesion = new javax.swing.JButton(); // Agregamos el nuevo botón
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> SelectEstado;
+    private javax.swing.JButton btnActualizarVehiculo;
+    private javax.swing.JToggleButton btnAgregar;
+    private javax.swing.JButton btnBuscarVehiculo;
+    private javax.swing.JButton btnMenuCliente;
+    private javax.swing.JButton btnModuloVentas;
+    private javax.swing.JComboBox<String> comboMarca;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea tDetalles;
+    private javax.swing.JTable tbInfo;
+    private javax.swing.JTextField txtAño;
+    private javax.swing.JTextField txtModelo;
+    private javax.swing.JTextField txtNombrePropietario;
+    private javax.swing.JTextField txtPlaca;
+    private javax.swing.JTextField txtValor;
+    // End of variables declaration//GEN-END:variables
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnCerrarSesion.setText("Cerrar Sesión"); // Configuramos el texto
-        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCerrarSesionActionPerformed(evt);
-            }
-        });
-
-        tbInfo.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(tbInfo);
-
-        comboMarca.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione...", "TOYOTA", "AUDI", "BMW", "MERCEDES BENZ", "KIA", "CHEVROLET", "REANAULT", "VOLSKWAGEN", "MITSUBISHI", "MAZDA", "NISSAN", " " }));
-        comboMarca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboMarcaActionPerformed(evt);
-            }
-        });
-
-        txtNombrePropietario.setText("jTextField1");
-
-        txtAño.setText("jTextField2");
-
-        txtModelo.setText("jTextField3");
-        txtModelo.setPreferredSize(new java.awt.Dimension(100, 22));
-        txtModelo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtModeloActionPerformed(evt);
-            }
-        });
-
-        txtPlaca.setText("jTextField4");
-
-        txtValor.setText("jTextField5");
-
-        btnAgregar.setText("Agregar");
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarActionPerformed(evt
+}
