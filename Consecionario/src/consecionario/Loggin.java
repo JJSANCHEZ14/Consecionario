@@ -4,11 +4,13 @@
  */
 package consecionario;
 
-import Coneccion.CRUD;
-import Controller.Usuario;
+import Coneccion.CRUD_Persona;
+import Controller.controllerPersona;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import util.SesionUsuario;
+import Modelo.Persona;
 
 /**
  *
@@ -19,8 +21,11 @@ public class Loggin extends javax.swing.JPanel {
     /**
      * Creates new form Loggin
      */
+    private controllerPersona personaController;
+
     public Loggin() {
         initComponents();
+        personaController = new controllerPersona();
     }
 
     /**
@@ -158,16 +163,12 @@ public class Loggin extends javax.swing.JPanel {
             String correo = JOptionPane.showInputDialog("Ingrese el Correo");
             String nombreUsuario = JOptionPane.showInputDialog("Ingrese el nombre de usuario");
             String password = JOptionPane.showInputDialog("Ingrese el Password");
-            
-            CRUD c = new CRUD();
-            
+            CRUD_Persona c = new CRUD_Persona();
             // Primero insertamos en la tabla persona
-            int resultPersona = c.insertarPersona(id, nombre, apellido, telefono, correo);
-            
+            int resultPersona = c.guardarCliente(id, nombre, apellido, telefono, correo);
             if (resultPersona > 0) {
                 // Si se insertó correctamente la persona, insertamos el vendedor
-                int resultVendedor = c.insertarVendedor(id, nombreUsuario, password);
-                
+                int resultVendedor = c.registrarVendedor(id, nombreUsuario, password);
                 if (resultVendedor > 0) {
                     JOptionPane.showMessageDialog(this, "Usuario registrado correctamente");
                     limpiarCampos();
@@ -187,33 +188,17 @@ public class Loggin extends javax.swing.JPanel {
     public void logginUsuario() {
         String nombreUsuario = TUser.getText();
         String password = new String(TPassword.getPassword());
-        
         if (nombreUsuario.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos");
             return;
         }
-        
         try {
-            CRUD c = new CRUD();
-            ResultSet rs = c.login(nombreUsuario, password);
-            
-            if (rs == null) {
-                JOptionPane.showMessageDialog(this, "Error de conexión a la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            if (rs.next()) {
-                String nombre = rs.getString("nombre");
-                String apellido = rs.getString("apellido");
-                JOptionPane.showMessageDialog(this, "Bienvenido " + nombre + " " + apellido);
-                
-                // Crear y mostrar la ventana principal
+            Persona usuario = personaController.loginVendedorYObtenerDatos(nombreUsuario, password);
+            if (usuario != null) {
+                SesionUsuario.setDatos(usuario.getId(), usuario.getNombre(), usuario.getApellido(), usuario.getEmail());
                 frmConcesionario concesionario = new frmConcesionario();
                 concesionario.setVisible(true);
-                
-                // Cerrar la ventana de login
                 javax.swing.SwingUtilities.getWindowAncestor(this).dispose();
-                
                 limpiarCampos();
             } else {
                 JOptionPane.showMessageDialog(this, 

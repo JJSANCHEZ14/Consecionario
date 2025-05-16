@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`factura` (
   `vehiculo` VARCHAR(45) NOT NULL,
   `precio` INT NOT NULL,
   `fecha` DATE NOT NULL,
-  `factura` VARCHAR(45) NOT NULL,
+  `factura` VARCHAR(45),
   PRIMARY KEY (`idfactura`),
   INDEX `vendedor_idx` (`usuario` ASC) VISIBLE,
   INDEX `cliente_idx` (`cliente` ASC) VISIBLE,
@@ -133,6 +133,157 @@ CREATE TABLE IF NOT EXISTS `mydb`.`factura` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- PROCEDURE: sp_login_vendedor
+DELIMITER $$
+CREATE PROCEDURE sp_login_vendedor(
+    IN p_usuario VARCHAR(100),
+    IN p_clave VARCHAR(100)
+)
+BEGIN
+    SELECT v.idvendedor, p.nombre, p.apellido, v.nombreUsuario
+    FROM vendedor v
+    INNER JOIN persona p ON v.idvendedor = p.idpersona
+    WHERE v.nombreUsuario = p_usuario AND v.clave = p_clave;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS sp_obtener_lista_clientes;
+DELIMITER //
+CREATE PROCEDURE sp_obtener_lista_clientes()
+BEGIN
+    SELECT idpersona, nombre, apellido, telefono, email
+    FROM persona
+    WHERE idpersona NOT IN (SELECT idvendedor FROM vendedor);
+END; //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS sp_obtener_cliente_por_id;
+DELIMITER //
+CREATE PROCEDURE sp_obtener_cliente_por_id(IN p_idpersona INT)
+BEGIN
+    SELECT idpersona, nombre, apellido, telefono, email
+    FROM persona
+    WHERE idpersona = p_idpersona
+      AND idpersona NOT IN (SELECT idvendedor FROM vendedor);
+END; //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS sp_guardar_cliente;
+DELIMITER //
+CREATE PROCEDURE sp_guardar_cliente(
+    IN p_idpersona INT,
+    IN p_nombre VARCHAR(45),
+    IN p_apellido VARCHAR(45),
+    IN p_telefono VARCHAR(45),
+    IN p_email VARCHAR(45)
+)
+BEGIN
+    INSERT INTO persona (idpersona, nombre, apellido, telefono, email)
+    VALUES (p_idpersona, p_nombre, p_apellido, p_telefono, p_email)
+    ON DUPLICATE KEY UPDATE
+        nombre = VALUES(nombre),
+        apellido = VALUES(apellido),
+        telefono = VALUES(telefono),
+        email = VALUES(email);
+END; //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS sp_actualizar_cliente;
+DELIMITER //
+CREATE PROCEDURE sp_actualizar_cliente(
+    IN p_idpersona INT,
+    IN p_nombre VARCHAR(45),
+    IN p_apellido VARCHAR(45),
+    IN p_telefono VARCHAR(45),
+    IN p_email VARCHAR(45)
+)
+BEGIN
+    UPDATE persona
+    SET nombre = p_nombre,
+        apellido = p_apellido,
+        telefono = p_telefono,
+        email = p_email
+    WHERE idpersona = p_idpersona;
+END; //
+DELIMITER ;
+
+-- Obtener vehículos actuales de un cliente (no vendidos)
+DROP PROCEDURE IF EXISTS sp_obtener_vehiculos_por_cliente_id;
+DELIMITER //
+CREATE PROCEDURE sp_obtener_vehiculos_por_cliente_id(IN p_cliente_id INT)
+BEGIN
+    SELECT v.placa, v.marca, v.modelo, v.anio, v.precio
+    FROM vehiculo v
+    INNER JOIN propietario p ON v.placa = p.placa_vehiculo
+    WHERE p.id_persona = p_cliente_id
+      AND v.vendido = 0;
+END //
+DELIMITER ;
+
+-- Registrar una nueva factura
+USE mydb;
+
+DROP PROCEDURE IF EXISTS sp_registrar_factura;
+DELIMITER //
+CREATE PROCEDURE sp_registrar_factura(
+    IN p_usuario VARCHAR(45),
+    IN p_idCliente INT,
+    IN p_placa VARCHAR(20),
+    IN p_precio DOUBLE,
+    IN p_fecha DATE
+)
+BEGIN
+    INSERT INTO factura (usuario, idcliente, placa, precio, fecha)
+    VALUES (p_usuario, p_idCliente, p_placa, p_precio, p_fecha);
+END //
+DELIMITER ;
+
+-- Buscar facturas por id de cliente
+DROP PROCEDURE IF EXISTS sp_buscar_facturas_por_cliente;
+DELIMITER //
+CREATE PROCEDURE sp_buscar_facturas_por_cliente(IN p_idCliente INT)
+BEGIN
+    SELECT * FROM factura WHERE cliente = p_idCliente;
+END //
+DELIMITER ;
+
+-- Buscar facturas por rango de fechas
+DROP PROCEDURE IF EXISTS sp_buscar_facturas_por_fecha;
+DELIMITER //
+CREATE PROCEDURE sp_buscar_facturas_por_fecha(IN p_fechaInicio DATE, IN p_fechaFin DATE)
+BEGIN
+    SELECT * FROM factura WHERE fecha BETWEEN p_fechaInicio AND p_fechaFin;
+END //
+DELIMITER ;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+-- Login vendedor
+USE mydb;
+
+DROP PROCEDURE IF EXISTS sp_login_vendedor;
+DELIMITER //
+CREATE PROCEDURE sp_login_vendedor(IN p_usuario VARCHAR(45), IN p_clave VARCHAR(45))
+BEGIN
+    SELECT p.idpersona, p.nombre, p.apellido, p.email
+    FROM persona p
+    INNER JOIN vendedor v ON p.idpersona = v.idvendedor
+    WHERE v.usuario = p_usuario
+      AND v.clave = p_clave;
+END //
+DELIMITER ;
+
+-- Corrige el JOIN para usar f.vehiculo en vez de f.placa
+DROP PROCEDURE IF EXISTS sp_vehiculos_mas_vendidos;
+DELIMITER //
+CREATE PROCEDURE sp_vehiculos_mas_vendidos()
+BEGIN
+    SELECT v.marca, COUNT(*) AS cantidad_vendida
+    FROM factura f
+    JOIN vehiculo v ON f.vehiculo = v.placa
+    GROUP BY v.marca
+    ORDER BY cantidad_vendida DESC;
+END //
+DELIMITER ;

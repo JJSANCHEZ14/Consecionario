@@ -8,20 +8,20 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import Coneccion.CRUD;
+import Coneccion.CRUD_Persona;
 
 /**
  *
  * @author willi
  */
-public class ModalRegistroCliente extends javax.swing.JPanel {
+public class ModalCliente extends javax.swing.JPanel {
 
     /**
      * Creates new form jPanel_Registro
      */
-    public ModalRegistroCliente() {
+    public ModalCliente() {
         initComponents();
-        crud = new CRUD();
+        crudPersona = new CRUD_Persona();
         btnActualizarCliente.setEnabled(false);
         configurarTabla();
         jTable2.setEnabled(false); // Deshabilitar interacción con la tabla
@@ -56,7 +56,8 @@ public class ModalRegistroCliente extends javax.swing.JPanel {
 
     private void cargarListaClientes() {
         try {
-            ResultSet rs = crud.obtenerListaClientes();
+            // Solo personas que NO están en la tabla vendedor
+            ResultSet rs = crudPersona.obtenerListaClientes();
             DefaultTableModel modelo = (DefaultTableModel) jTable2.getModel();
             modelo.setRowCount(0); // Limpiar tabla
 
@@ -300,7 +301,7 @@ public class ModalRegistroCliente extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_TPNombreActionPerformed
 
-    private CRUD crud;
+    private CRUD_Persona crudPersona;
 
     private void btnGuardarClienteActionPerformed(java.awt.event.ActionEvent evt) {
         try {
@@ -310,7 +311,7 @@ public class ModalRegistroCliente extends javax.swing.JPanel {
             String email = TCorreo.getText().trim();
             int id = Integer.parseInt(TIdentificacion.getText().trim());
 
-            int resultado = crud.guardarCliente(id, nombre, apellido, telefono, email);
+            int resultado = crudPersona.guardarCliente(id, nombre, apellido, telefono, email);
             if (resultado > 0) {
                 javax.swing.JOptionPane.showMessageDialog(this,
                     "Cliente guardado exitosamente",
@@ -345,7 +346,7 @@ public class ModalRegistroCliente extends javax.swing.JPanel {
         
         try {
             int id = Integer.parseInt(idStr.trim());
-            java.sql.ResultSet rs = crud.obtenerClientePorId(id);
+            java.sql.ResultSet rs = crudPersona.obtenerClientePorId(id);
 
             if (rs.next()) {
                 String[] nombres = rs.getString("nombre").split(" ");
@@ -391,7 +392,7 @@ public class ModalRegistroCliente extends javax.swing.JPanel {
             String telefono = TTelefono.getText().trim();
             String email = TCorreo.getText().trim();
 
-            int resultado = crud.actualizarCliente(id, nombre, apellido, telefono, email);
+            int resultado = crudPersona.actualizarCliente(id, nombre, apellido, telefono, email);
             if (resultado > 0) {
                 javax.swing.JOptionPane.showMessageDialog(this,
                     "Cliente actualizado exitosamente",

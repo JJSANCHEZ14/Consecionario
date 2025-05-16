@@ -152,31 +152,29 @@ public class CRUD {
     public int insertarVehiculo(String placa, String marca, String modelo, 
                               int anio, double costo, double precio,
                               int estado, String detalles) {
-        String QUERY = "INSERT INTO vehiculo (placa, marca, modelo, anio, tipo, estado, detalle, costo, precio) " +
-                      "VALUES (?, ?, ?, ?, 'GENERAL', ?, ?, ?, ?)";
-        
         try {
-            Connection Con = Conexion.getConexion();
-            PreparedStatement PS = Con.prepareStatement(QUERY);
-            PS.setString(1, placa);
-            PS.setString(2, marca);
-            PS.setString(3, modelo);
-            PS.setInt(4, anio);
-            PS.setInt(5, estado);
-            PS.setString(6, detalles);
-            PS.setDouble(7, costo);
-            PS.setDouble(8, precio);
-            
-            return PS.executeUpdate();
+            Connection cn = Conexion.getConexion();
+            CallableStatement cs = cn.prepareCall("{CALL sp_insertar_vehiculo(?, ?, ?, ?, ?, ?, ?, ?)}");
+            cs.setString(1, placa);
+            cs.setString(2, marca);
+            cs.setString(3, modelo);
+            cs.setInt(4, anio);
+            cs.setDouble(5, costo);
+            cs.setDouble(6, precio);
+            cs.setInt(7, estado);
+            cs.setString(8, detalles);
+            int res = cs.executeUpdate();
+            cs.close();
+            return res;
         } catch (SQLException e) {
-            System.err.println("Error al insertar vehículo");
+            System.err.println("Error al insertar vehículo (SP)");
             e.printStackTrace();
             return -1;
         }
     }
 
     /**
-     * Registrar venta de vehículo
+     * Registrar venta de vehículo usando procedimiento almacenado
      * @param idVendedor ID del vendedor
      * @param idCliente ID del cliente
      * @param placa Placa del vehículo
@@ -185,24 +183,19 @@ public class CRUD {
      * @return 1 si se registró correctamente, -1 si hubo error
      */
     public int registrarVenta(int idVendedor, int idCliente, String placa, int precio, String numeroFactura) {
-        String QUERY = "INSERT INTO factura (usuario, cliente, vehiculo, precio, fecha, factura) VALUES (?,?,?,?,?,?)";
-        
         try {
-            Connection Con = Conexion.getConexion();
-            PreparedStatement PS = Con.prepareStatement(QUERY);
-            PS.setInt(1, idVendedor);
-            PS.setInt(2, idCliente);
-            PS.setString(3, placa);
-            PS.setInt(4, precio);
-            PS.setDate(5, new java.sql.Date(System.currentTimeMillis()));
-            PS.setString(6, numeroFactura);
-            
-            // Actualizar estado del vehículo a vendido (0)
-            actualizarEstadoVehiculo(placa, 0);
-            
-            return PS.executeUpdate();
+            Connection cn = Conexion.getConexion();
+            CallableStatement cs = cn.prepareCall("{CALL sp_registrar_venta(?, ?, ?, ?, ?)}");
+            cs.setInt(1, idVendedor);
+            cs.setInt(2, idCliente);
+            cs.setString(3, placa);
+            cs.setInt(4, precio);
+            cs.setString(5, numeroFactura);
+            int res = cs.executeUpdate();
+            cs.close();
+            return res;
         } catch (SQLException e) {
-            System.err.println("Error al registrar venta");
+            System.err.println("Error al registrar venta (SP)");
             e.printStackTrace();
             return -1;
         }
@@ -413,65 +406,98 @@ public class CRUD {
         }
     }
 
+    /**
+     * Buscar cliente por nombre usando procedimiento almacenado
+     */
+    public ResultSet buscarClientePorNombre(String nombre) throws SQLException {
+        String sql = "CALL sp_buscar_cliente_por_nombre(?)";
+        PreparedStatement stmt = Conexion.getConexion().prepareStatement(sql);
+        stmt.setString(1, nombre);
+        return stmt.executeQuery();
+    }
+
+    /**
+     * Obtener vehículo por placa usando procedimiento almacenado
+     */
     public ResultSet obtenerVehiculoPorPlaca(String placa) throws SQLException {
-        String sql = "SELECT * FROM vehiculo WHERE placa = ?";
-        java.sql.PreparedStatement stmt = Conexion.getConexion().prepareStatement(sql);
+        String sql = "CALL sp_obtener_vehiculo_por_placa(?)";
+        PreparedStatement stmt = Conexion.getConexion().prepareStatement(sql);
         stmt.setString(1, placa);
         return stmt.executeQuery();
     }
 
+    /**
+     * Marcar vehículo como vendido usando procedimiento almacenado
+     */
+    public int marcarVehiculoVendido(String placa) throws SQLException {
+        String sql = "CALL sp_marcar_vehiculo_vendido(?)";
+        PreparedStatement stmt = Conexion.getConexion().prepareStatement(sql);
+        stmt.setString(1, placa);
+        return stmt.executeUpdate();
+    }
+
+    /**
+     * Obtener facturas por fecha usando procedimiento almacenado
+     */
+    public ResultSet obtenerFacturasPorFecha(java.sql.Date fecha) throws SQLException {
+        String sql = "CALL sp_obtener_facturas_por_fecha(?)";
+        PreparedStatement stmt = Conexion.getConexion().prepareStatement(sql);
+        stmt.setDate(1, fecha);
+        return stmt.executeQuery();
+    }
+
+    /**
+     * Obtener vehículos más vendidos por marca usando procedimiento almacenado
+     */
+    public ResultSet vehiculosMasVendidosPorMarca() throws SQLException {
+        String sql = "CALL sp_vehiculos_mas_vendidos()";
+        PreparedStatement stmt = Conexion.getConexion().prepareStatement(sql);
+        return stmt.executeQuery();
+    }
+
     public int actualizarVehiculo(String placa, String marca, String modelo, int anio, 
-                                 double costo, double precio, int estado, String detalle) throws SQLException {
-        String sql = "UPDATE vehiculo SET marca = ?, modelo = ?, anio = ?, " +
-                    "costo = ?, precio = ?, estado = ?, detalle = ? WHERE placa = ?";
-        
+                                double costo, double precio, int estado, String detalle) throws SQLException {
+        String sql = "CALL sp_actualizar_vehiculo(?, ?, ?, ?, ?, ?, ?, ?)";
         java.sql.PreparedStatement stmt = Conexion.getConexion().prepareStatement(sql);
-        stmt.setString(1, marca);
-        stmt.setString(2, modelo);
-        stmt.setInt(3, anio);
-        stmt.setDouble(4, costo);
-        stmt.setDouble(5, precio);
-        stmt.setInt(6, estado);
-        stmt.setString(7, detalle);
-        stmt.setString(8, placa);
-        
+        stmt.setString(1, placa);
+        stmt.setString(2, marca);
+        stmt.setString(3, modelo);
+        stmt.setInt(4, anio);
+        stmt.setDouble(5, costo);
+        stmt.setDouble(6, precio);
+        stmt.setInt(7, estado);
+        stmt.setString(8, detalle);
         return stmt.executeUpdate();
     }
 
     public int guardarCliente(int idpersona, String nombre, String apellido, 
                             String telefono, String email) throws SQLException {
-        String sql = "INSERT INTO persona (idpersona, nombre, apellido, telefono, email) " +
-                    "VALUES (?, ?, ?, ?, ?)";
-                    
+        String sql = "CALL sp_guardar_cliente(?, ?, ?, ?, ?)";
         java.sql.PreparedStatement stmt = Conexion.getConexion().prepareStatement(sql);
         stmt.setInt(1, idpersona);
         stmt.setString(2, nombre);
         stmt.setString(3, apellido);
         stmt.setString(4, telefono);
         stmt.setString(5, email);
-        
         return stmt.executeUpdate();
     }
 
     public ResultSet obtenerClientePorId(int idpersona) throws SQLException {
-        String sql = "SELECT * FROM persona WHERE idpersona = ?";
+        String sql = "CALL sp_obtener_cliente_por_id(?)";
         java.sql.PreparedStatement stmt = Conexion.getConexion().prepareStatement(sql);
         stmt.setInt(1, idpersona);
         return stmt.executeQuery();
     }
 
     public int actualizarCliente(int idpersona, String nombre, String apellido, 
-                               String telefono, String email) throws SQLException {
-        String sql = "UPDATE persona SET nombre = ?, apellido = ?, " +
-                    "telefono = ?, email = ? WHERE idpersona = ?";
-                    
+                            String telefono, String email) throws SQLException {
+        String sql = "CALL sp_actualizar_cliente(?, ?, ?, ?, ?)";
         java.sql.PreparedStatement stmt = Conexion.getConexion().prepareStatement(sql);
-        stmt.setString(1, nombre);
-        stmt.setString(2, apellido);
-        stmt.setString(3, telefono);
-        stmt.setString(4, email);
-        stmt.setInt(5, idpersona);
-        
+        stmt.setInt(1, idpersona);
+        stmt.setString(2, nombre);
+        stmt.setString(3, apellido);
+        stmt.setString(4, telefono);
+        stmt.setString(5, email);
         return stmt.executeUpdate();
     }
 
@@ -480,14 +506,54 @@ public class CRUD {
      * @return ResultSet con los datos de los clientes
      */
     public ResultSet obtenerListaClientes() throws SQLException {
-        String QUERY = """
-            SELECT p.* FROM persona p 
-            LEFT JOIN vendedor v ON p.idpersona = v.idvendedor 
-            WHERE v.idvendedor IS NULL 
-            ORDER BY p.idpersona
-        """;
-        
-        Connection Con = Conexion.getConexion();
-        return Con.createStatement().executeQuery(QUERY);
+        String sql = "CALL sp_obtener_lista_clientes()";
+        java.sql.PreparedStatement stmt = Conexion.getConexion().prepareStatement(sql);
+        return stmt.executeQuery();
+    }
+
+    /**
+     * Inserta una nueva persona usando procedimiento almacenado
+     * @param id id de la persona
+     * @param nombre nombre
+     * @param apellido apellido
+     * @param telefono telefono
+     * @param email email
+     */
+    public void insertarPersonaSP(int id, String nombre, String apellido, String telefono, String email) throws SQLException {
+        Connection cn = Conexion.getConexion();
+        CallableStatement cs = cn.prepareCall("{CALL sp_insertar_persona(?, ?, ?, ?, ?)}");
+        cs.setInt(1, id);
+        cs.setString(2, nombre);
+        cs.setString(3, apellido);
+        cs.setString(4, telefono);
+        cs.setString(5, email);
+        cs.executeUpdate();
+        cs.close();
+    }
+
+    /**
+     * Inserta un nuevo vendedor usando procedimiento almacenado
+     * @param idPersona id de la persona
+     * @param usuario nombre de usuario
+     * @param clave clave del vendedor
+     */
+    public void insertarVendedorSP(int idPersona, String usuario, String clave) throws SQLException {
+        Connection cn = Conexion.getConexion();
+        CallableStatement cs = cn.prepareCall("{CALL sp_insertar_vendedor(?, ?, ?)}");
+        cs.setInt(1, idPersona);
+        cs.setString(2, usuario);
+        cs.setString(3, clave);
+        cs.executeUpdate();
+        cs.close();
+    }
+
+    public int asignarPropietario(String placa, int idCliente) throws SQLException {
+        String sql = "INSERT INTO propietario (vehiculo, idcliente) VALUES (?, ?) ON DUPLICATE KEY UPDATE idcliente = ?";
+        Connection cn = Conexion.getConexion();
+        PreparedStatement stmt = cn.prepareStatement(sql);
+        stmt.setString(1, placa);
+        stmt.setInt(2, idCliente);
+        stmt.setInt(3, idCliente);
+        return stmt.executeUpdate();
     }
 }

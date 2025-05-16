@@ -56,19 +56,37 @@ public class controllerConcesionario {
     }
 
     public boolean existePlaca(String placa) throws SQLException {
-        return crud.existePlaca(placa);
+        return crud.existePlaca(placa.toUpperCase());
     }
 
     public int insertarVehiculo(String placa, String marca, String modelo, int año, double costo, double precio, int estado, String detalles) throws SQLException {
-        return crud.insertarVehiculo(placa, marca, modelo, año, costo, precio, estado, detalles);
+        return crud.insertarVehiculo(
+            placa.toUpperCase(),
+            marca.toUpperCase(),
+            modelo.toUpperCase(),
+            año,
+            costo,
+            precio,
+            estado,
+            detalles != null ? detalles.toUpperCase() : null
+        );
     }
 
     public ResultSet obtenerVehiculoPorPlaca(String placa) throws SQLException {
-        return crud.obtenerVehiculoPorPlaca(placa);
+        return crud.obtenerVehiculoPorPlaca(placa.toUpperCase());
     }
 
     public int actualizarVehiculo(String placa, String marca, String modelo, int año, double costo, double precio, int estado, String detalles) throws SQLException {
-        return crud.actualizarVehiculo(placa, marca, modelo, año, costo, precio, estado, detalles);
+        return crud.actualizarVehiculo(
+            placa.toUpperCase(),
+            marca.toUpperCase(),
+            modelo.toUpperCase(),
+            año,
+            costo,
+            precio,
+            estado,
+            detalles != null ? detalles.toUpperCase() : null
+        );
     }
 
     public String validarCostos(double costo, double precio) {
@@ -89,5 +107,12 @@ public class controllerConcesionario {
             return "La placa debe tener entre 6 y 7 caracteres";
         }
         return "";
+    }
+
+    public ResultSet buscarVehiculoPorPlacaSP(String placa) throws SQLException {
+        String sql = "CALL sp_bucar_veghiculo_po_placa(?)";
+        java.sql.PreparedStatement stmt = Coneccion.Conexion.getConexion().prepareStatement(sql);
+        stmt.setString(1, placa.toUpperCase());
+        return stmt.executeQuery();
     }
 }
